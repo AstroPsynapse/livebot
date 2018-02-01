@@ -2,7 +2,6 @@ const request = require('request');
 const jsonfile = require('jsonfile');
 const config = require(__basedir + '/config/config.js');
 
-
 module.exports = {
   info: "Adds a streamer to the auto-announcements list.",
   exec: function(client, message, args) {
