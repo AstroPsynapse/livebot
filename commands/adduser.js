@@ -21,7 +21,7 @@ module.exports = {
               if (arr[i].name.toLowerCase() == args[0].toLowerCase())
                 return message.channel.send(`**${args[0]}** is already on the auto-announcement list.`);
           }
-          arr.push({"name":json.name});
+          arr.push({"name":json.name,"live":json.online});
           jsonfile.writeFile(config.streamerFile, arr, function(err) {
             if (err) return message.channel.send(__strings.writeError);
             return message.channel.send(`**${json.name}** was added to the auto-announcement list for streams going live.`);
