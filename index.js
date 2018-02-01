@@ -5,6 +5,10 @@ const Discord = require("discord.js");
 const client = new Discord.Client();
 const config = require(__basedir + '/config/config.js');
 const jsonfile = require('jsonfile');
+const scheduler = require(__basedir + '/scheduler.js');
+let __scheduler;
+let channel;
+let guild;
 
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
@@ -34,6 +38,9 @@ client.on('message', message => {
   return;
 });
 
+client.login(config.clientKey);
+
+
 function configCheck() {
   jsonfile.readFile(config.streamerFile, function(err) {
     if (err) {
@@ -47,7 +54,17 @@ function configCheck() {
         return console.log(`Streamer storage file successfully generated.`);
       });
     }
-    return console.log(`Streamer storage file found.`);
+    console.log(`Streamer storage file found.`);
   });
+  guild = client.guilds.find("name", config.guildName);
+  if (!guild) {
+    console.log(__strings.guildNotFoundError);
+    process.exit(1);
+  }
+  channel = guild.channels.find("name", config.streamChannel);
+  if (!channel) {
+    console.log(__strings.channelNotFoundError);
+    process.exit(1);
+  }
+  __scheduler = scheduler.exec(channel, config.refreshRate);
 }
-client.login(config.clientKey);
