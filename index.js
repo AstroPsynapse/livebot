@@ -88,7 +88,6 @@ Client.on('message', message => {
         return message.channel.send("Error - User does not exist.");
     });
   }
-  //TODO: deluser
   if (content[0] == Settings.cmdPrefix + "deluser") {
     if (!hasPermission(message.member)) return message.channel.send("Error - You do not have permission to use this command.");
     if (content.length < 2) return message.channel.send("Error - Invalid command syntax.");
