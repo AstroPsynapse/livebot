@@ -72,11 +72,11 @@ Client.on('message', message => {
     Request(`https://api.picarto.tv/v1/channel/name/${content[1]}`, function(err, resp, body) {
       if (body != "Account does not exist" && !err) {
         var data = JSON.parse(body);
-        StreamUsers.push({"username":data.username});
+        StreamUsers.push({"username":data.name});
         var file = Settings.configFile;
         JsonFile.writeFile(file, StreamUsers, function (err) {
           if (err) return message.channel.send(`Error - ${err}`);
-          message.channel.send(`Added ${data.username} to the list of auto-announcements for streams going live.`);
+          message.channel.send(`Added ${data.name} to the list of auto-announcements for streams going live.`);
         });
       }
       else
