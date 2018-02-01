@@ -64,10 +64,15 @@ Client.on('message', message => {
   if (content[0] == Settings.cmdPrefix + "adduser") {
     if (!hasPermission(message.member)) return message.channel.send("Error - You do not have permission to use this command.");
     if (content.length < 2) return message.channel.send("Error - Invalid command syntax.");
-    var found = StreamUsers.filter(function(val) {
-      return val.username.toLowerCase() === content[1].toLowerCase();
-    });
-    if (StreamUsers.length == 0) found = false;
+    let found = false;
+    for (var i = 0; i < StreamUsers.length; i++) {
+      if (StreamUsers[i].hasOwnProperty('username')) {
+        if (StreamUsers[i].username.toLowerCase() == content[1].toLowerCase()) {
+          found = true;
+          break;
+        }
+      }
+    }
     if (found) return message.channel.send(`Error - ${content[1]} was already found in the auto-announcements list.`);
     Request(`https://api.picarto.tv/v1/channel/name/${content[1]}`, function(err, resp, body) {
       if (body != "Account does not exist" && !err) {
