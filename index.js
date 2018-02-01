@@ -62,13 +62,13 @@ Client.on('message', message => {
   //if (Settings.debug) console.log(`[DEBUG] The length of the message is ${content.length}`);
   // Start of commands
   if (content[0] == Settings.cmdPrefix + "adduser") {
-    if (!hasPermission(message.member)) return message.channel.send("You do not have permission to use this command.");
-    if (content.length < 2) return message.channel.send("Invalid command syntax.");
+    if (!hasPermission(message.member)) return message.channel.send("Error - You do not have permission to use this command.");
+    if (content.length < 2) return message.channel.send("Error - Invalid command syntax.");
     var found = StreamUsers.filter(function(val) {
       return val.username.toLowerCase() === content[1].toLowerCase();
     });
     if (StreamUsers.length == 0) found = false;
-    if (found) return message.channel.send(`${content[1]} was already found in the auto-announcements list.`);
+    if (found) return message.channel.send(`Error - ${content[1]} was already found in the auto-announcements list.`);
     Request(`https://api.picarto.tv/v1/channel/name/${content[1]}`, function(err, resp, body) {
       if (body != "Account does not exist" && !err) {
         var data = JSON.parse(body);
@@ -85,7 +85,7 @@ Client.on('message', message => {
   }
   //TODO: deluser
   if (content[0] == Settings.cmdPrefix + "deluser") {
-    if (!hasPermission(message.member)) return message.channel.send("You do not have permission to use this command.");
+    if (!hasPermission(message.member)) return message.channel.send("Error - You do not have permission to use this command.");
     if (content.length < 2) return message.channel.send("Error - Invalid command syntax.");
     var found = StreamUsers.filter(function(val) {
       return val.username.toLowerCase() == content[1].toLowerCase();
@@ -97,21 +97,21 @@ Client.on('message', message => {
     var file = Settings.configFile;
     JsonFile.writeFile(file, StreamUsers,function(err) {
       if (err) {
-        message.channel.send("There was an error trying to save the user to the configuration file. Please check the console for a more detailed error log.");
+        message.channel.send("Error - Could not save to configuration file. Please report this to the administrator.");
         console.log(`Error - ${err}`);
       }
     });
   }
   if (content[0] == Settings.cmdPrefix + "lookup") {
     if (content.length < 2) {
-      message.channel.send("Error: Invalid command syntax.");
+      message.channel.send("Error - Invalid command syntax.");
       return;
     }
     Request(`https://api.picarto.tv/v1/channel/name/${content[1]}`, function(err, resp, body) {
       if (err)
         return message.channel.send(`Error: ${error}`);
         if (body == "Account does not exist")
-          return message.channel.send(`Error: User not found`);
+          return message.channel.send(`Error - User does not exist.`);
       var data = JSON.parse(body);
       var embed = new Discord.RichEmbed()
         .setTitle(`https://picarto.tv/${data.name}`)
@@ -157,9 +157,9 @@ function loadConfig() {
   });
   console.log("Setting up server roles...");
   Guild = Client.guilds.find("name", Settings.guildName);
-  if (!Guild) { console.log("Error: Guild not found. Please double check the name of it in config.js"); process.exit(); }
+  if (!Guild) { console.log("Error - Guild not found. Please double check the name of it in config.js"); process.exit(); }
   Channel = Guild.channels.find("name", Settings.announceChannel);
-  if (!Channel) { console.log("Error: Main channel not found. Please double check the name of it in config.js"); process.exit(); }
+  if (!Channel) { console.log("Error - Main channel not found. Please double check the name of it in config.js"); process.exit(); }
   for (var i = 0; i < Settings.permRoles.length; i++) {
     let role = Guild.roles.find("name", Settings.permRoles[i]);
     if (role) {
