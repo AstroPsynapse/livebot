@@ -17,7 +17,7 @@ let activeChannel = "";
 // For development purposes. Includes extra verbose logging.
 let debug = false;
 // Don't touch unless you know what you're doing!
-let configFile = './config/config.json';
+let configFile = './config/streamers.json';
 // Don't touch unless you know what you're doing!
 let refreshRate = 25000;
 module.exports = {clientKey, guildName, cmdPrefix, announceChannel, activeChannel, permRoles, debug, configFile, refreshRate};
