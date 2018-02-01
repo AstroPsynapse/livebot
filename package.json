@@ -12,5 +12,10 @@
     "livestream"
   ],
   "author": "AstroPsynapse",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "discord.js": "^11.3.0",
+    "request": "^2.83.0",
+    "string": "^3.3.3"
+  }
 }
