@@ -1,0 +1,16 @@
+{
+  "name": "livebot",
+  "version": "1.0.0",
+  "description": "Gets information for various streamers",
+  "main": "index.js",
+  "scripts": {
+    "test": "blarg"
+  },
+  "keywords": [
+    "bot",
+    "picarto",
+    "livestream"
+  ],
+  "author": "AstroPsynapse",
+  "license": "ISC"
+}
