@@ -23,7 +23,6 @@ client.on('message', message => {
     var adduser = require(__basedir + '/commands/adduser.js');
     adduser.exec(client, message, args);
   }
-
   if (command == "deluser") {
     var deluser = require(__basedir + '/commands/deluser.js');
     deluser.exec(client, message, args);
@@ -38,16 +37,17 @@ client.on('message', message => {
 function configCheck() {
   jsonfile.readFile(config.streamerFile, function(err) {
     if (err) {
-      console.log(`Setting up streamer storage file for the first time...`);
+      console.log(`Couldn't locate the streamer storage file. Setting it up for the first time...`);
       var arr = [];
       jsonfile.writeFile(config.streamerFile, arr, function(err) {
         if (err) {
-          console.log(`Unable to create streamer storage file: ${err}`);
+          console.log(`FATAL ERROR: Unable to create streamer storage file: ${err}`);
           process.exit(1);
         }
-        console.log(`Streamer storage file successfully generated.`);
+        return console.log(`Streamer storage file successfully generated.`);
       });
     }
+    return console.log(`Streamer storage file found.`);
   });
 }
 client.login(config.clientKey);
