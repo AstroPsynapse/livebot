@@ -4,7 +4,7 @@ const config = require(__basedir + '/config/config.js');
 
 module.exports = {
   exec: function(channel, timeout) {
-    console.log(`Scheduler spawned with a refresh interval of ${timeout}ms`)
+    console.log(`Scheduler spawned with a refresh interval of ${timeout}ms`);
     function save(obj) {
       jsonfile.writeFile(config.streamerFile, obj, function(err) {
         if (err) {
@@ -22,13 +22,12 @@ module.exports = {
         if (obj.length == 0) return console.log(__strings.noStreamersFoundError);
         var changed = false;
         var x = 0;
-        var data;
         for (var i = 0; i < obj.length; i++) {
             if (obj[i].hasOwnProperty("name"))
             request(`https://api.picarto.tv/v1/channel/name/${obj[i].name}`, function(err, resp, body) {
               if (err) console.log(`Scheduler Error - Could not request from Picarto API for user ${obj[this.i].name}`);
               else {
-                data = JSON.parse(body);
+                var data = JSON.parse(body);
                 if (!obj[this.i].hasOwnProperty("live")) {
                   obj[this.i].live = false;
                 }
@@ -49,4 +48,4 @@ module.exports = {
       });
     }, config.refreshRate);
   }
-}
+};
